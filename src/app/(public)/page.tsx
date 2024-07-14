@@ -47,8 +47,6 @@ export default function Home() {
       return res;
     });
 
-    console.log(result);
-
     if (result && !result.ok) {
       setInvalidUser(true);
       return;
