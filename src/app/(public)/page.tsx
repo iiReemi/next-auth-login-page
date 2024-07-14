@@ -47,6 +47,8 @@ export default function Home() {
       return res;
     });
 
+    console.log(result);
+
     if (result && !result.ok) {
       setInvalidUser(true);
       return;
@@ -55,10 +57,6 @@ export default function Home() {
     Cookies.set("rememberMe", data.rememberMe ? "true" : "false");
 
     router.replace("/dashboard");
-  };
-
-  const handleInputChange = () => {
-    if (invalidUser) setInvalidUser(false);
   };
 
   return (
@@ -77,7 +75,7 @@ export default function Home() {
                 Email address
               </Typography>
               <input
-                {...register("email", { onChange: handleInputChange })}
+                {...register("email")}
                 className={`w-full border-stone-200 border-solid border-[1px] rounded-md p-3 ${
                   invalidUser && "border-red-300"
                 }`}
@@ -89,7 +87,7 @@ export default function Home() {
                 Password
               </Typography>
               <input
-                {...register("password", { onChange: handleInputChange })}
+                {...register("password")}
                 type="password"
                 className={`w-full border-stone-200 border-solid border-[1px] rounded-md p-3 ${
                   invalidUser && "border-red-300"
@@ -117,6 +115,16 @@ export default function Home() {
                 color={"red"}
               >
                 {errors.email?.message || errors.password?.message}
+              </Typography>
+            )}
+            {invalidUser && (
+              <Typography
+                variant="subtitle2"
+                component="h1"
+                fontWeight={"300"}
+                color={"red"}
+              >
+                Email or password is incorrect
               </Typography>
             )}
             <Button
