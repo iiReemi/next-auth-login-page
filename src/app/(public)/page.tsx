@@ -4,7 +4,6 @@ import { Google } from "@mui/icons-material";
 import { Button, Checkbox, Divider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import Cookies from "js-cookie";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +12,6 @@ import { z } from "zod";
 
 const credentialsSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  rememberMe: z.boolean().optional(),
   password: z
     .string()
     .min(4, { message: "Password must be at least 8 characters" }),
@@ -41,7 +39,6 @@ export default function Home() {
       email: data.email,
       password: data.password,
       redirect: false,
-      rememberMe: data.rememberMe ? "true" : "false",
     }).then((res) => {
       setIsLoginPending(false);
       return res;
@@ -51,8 +48,6 @@ export default function Home() {
       setInvalidUser(true);
       return;
     }
-
-    Cookies.set("rememberMe", data.rememberMe ? "true" : "false");
 
     router.replace("/dashboard");
   };
@@ -94,11 +89,7 @@ export default function Home() {
               />
             </div>
             <div className="flex flex-row items-center">
-              <Checkbox
-                className="w-fit"
-                id="remember-me"
-                {...register("rememberMe")}
-              />
+              <Checkbox className="w-fit" id="remember-me" />
               <label className="cursor-pointer" htmlFor="remember-me">
                 Remember me
               </label>
